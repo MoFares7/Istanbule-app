@@ -12,7 +12,8 @@ class TextFormEditing extends StatelessWidget {
       this.onChanged,
       this.focusNode,
       this.labelText,
-      this.controller})
+      this.controller,
+      this.initialValue})
       : super(key: key);
 
   final String hintText;
@@ -22,7 +23,7 @@ class TextFormEditing extends StatelessWidget {
   final double? height;
   final double? width;
   final void Function(dynamic)? onChanged;
-
+  final String? initialValue;
   final FocusNode? focusNode;
   final TextEditingController? controller;
 
@@ -36,6 +37,7 @@ class TextFormEditing extends StatelessWidget {
         validator: validator,
         onChanged: onChanged,
         controller: controller,
+        initialValue: initialValue,
         keyboardType: keyboardType,
         focusNode: focusNode,
         cursorColor: AppColors.primary1,

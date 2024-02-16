@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:istanbule/core/translate/app_translate.dart';
 import 'package:istanbule/features/Utils/them.dart';
+import 'package:istanbule/features/screens/AuthScreen/presintation/pages/loginScreen.dart';
+import 'package:istanbule/features/screens/AuthScreen/presintation/pages/registerScreen.dart';
 import 'package:istanbule/features/screens/MainScreen/mainScreen.dart';
 import 'package:istanbule/features/screens/SplachScreen/presintation/pages/splachSscreen.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -39,7 +41,7 @@ class MyApp extends StatelessWidget {
       locale: const Locale('ru'),
       //getPages: RoutingManager.pages,
       //initialRoute: RoutesName.splashScreen,
-      home: SplashScreen(),
+      home: LoginScreen(),
     );
   }
 }

@@ -58,7 +58,7 @@ class Request {
             options: Options(
               method: Utils.requestTypeToString(method),
               headers: headers,
-              // contentType: 'application/json',
+              contentType: 'application/json',
             ),
           );
 

@@ -8,7 +8,7 @@ class DioInstance {
   Dio _instantiate() {
     Dio dio = Dio(
       BaseOptions(
-        baseUrl: 'http://172.20.10.5:8000/api/',
+        baseUrl: 'https://rest.istanbulru.com/api',
         receiveDataWhenStatusError: true,
       ),
     );

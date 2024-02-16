@@ -200,6 +200,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  loading_animation_widget:
+    dependency: "direct main"
+    description:
+      name: loading_animation_widget
+      sha256: "1901682600273a966c34cf44a85fc5355da92a8d08a8a43c11adc4e471993e3a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0+4"
   marquee:
     dependency: "direct main"
     description:
@@ -336,6 +344,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.0"
+  rx_future:
+    dependency: "direct main"
+    description:
+      name: rx_future
+      sha256: "52f96bd6d78f14f55b80336948b6d9ebe0a2f1b561258e7770dbc68e6b030989"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3"
   sky_engine:
     dependency: transitive
     description: flutter
