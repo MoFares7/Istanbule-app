@@ -70,7 +70,7 @@ class UserController extends GetxController {
           'Error'.tr,
           "Occurd error during login in app".tr,
           margin: const EdgeInsets.all(30),
-          snackPosition: SnackPosition.BOTTOM,
+          snackPosition: SnackPosition.TOP,
           backgroundColor: AppColors.primary1,
           colorText: AppColors.textColorWhiteBold,
         );

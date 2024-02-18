@@ -13,7 +13,6 @@ import 'package:istanbule/features/screens/AuthScreen/presintation/widgets/passw
 import 'package:istanbule/features/screens/AuthScreen/presintation/widgets/textField.dart';
 import 'package:istanbule/features/screens/widgets/mainButton.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-// import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
@@ -42,6 +41,7 @@ class RegisterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     userController.userApi;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.primary1,
       body: SingleChildScrollView(
         child: ResponsiveLayout(
@@ -76,11 +76,13 @@ class RegisterScreen extends StatelessWidget {
                               right: 0,
                               child: RawMaterialButton(
                                 onPressed: () async {
-                                  // final List<AssetEntity>? result =
+                                  // print("Before select image");
+                                  // final List? result =
                                   //     await AssetPicker.pickAssets(
                                   //   context,
                                   //   pickerConfig: const AssetPickerConfig(),
                                   // );
+                                  // print("after select image");
                                 },
                                 elevation: 2.0,
                                 fillColor: const Color(0xFFF5F6F9),
@@ -114,7 +116,7 @@ class RegisterScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Padding(
-                              padding: EdgeInsets.only(
+                              padding: const EdgeInsets.only(
                                   top: 10, bottom: 30, right: 10, left: 10),
                               child: Text(
                                 'Create account in our platform'.tr,
@@ -204,11 +206,7 @@ class RegisterScreen extends StatelessWidget {
                             PasswordFormFiled(
                                 labelText: 'Confirm Password'.tr,
                                 hintText: "*********",
-                                onChanged: (value) {
-                                  // authController.loginRequestModel.password = value;
-                                },
-                                // initialValue:
-                                //     authController.loginRequestModel.password,
+                                onChanged: (value) {},
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return "Please Enter The Password".tr;
@@ -230,8 +228,8 @@ class RegisterScreen extends StatelessWidget {
                                 print('changing value to: $value');
                               },
                               closedBorder: Border.all(
-                                color: Colors.black, // Choose your border color
-                                width: 1.0, // Choose your border width
+                                color: Colors.black,
+                                width: 1.0,
                               ),
                             ),
                             const SizedBox(height: 16),
