@@ -36,6 +36,22 @@ getHeadFont(BuildContext context) {
   );
 }
 
+getTitleHomeFont(BuildContext context) {
+  return TextStyle(
+      fontSize: ResponsiveValue(
+        context,
+        valueWhen: [
+          const Condition.equals(name: MOBILE, value: 18.0),
+          const Condition.equals(name: TABLET, value: 18.0),
+          const Condition.equals(name: DESKTOP, value: 19.0),
+          const Condition.largerThan(name: DESKTOP, value: 20.0),
+        ],
+        defaultValue: 18.0,
+      ).value,
+      color: AppColors.textColorBlackBold,
+      fontWeight: FontWeight.bold);
+}
+
 getTitleFont(BuildContext context) {
   return TextStyle(
     fontSize: ResponsiveValue(
@@ -78,12 +94,13 @@ getButtonFont(BuildContext context) {
         const Condition.equals(name: DESKTOP, value: 15.0),
         const Condition.largerThan(name: DESKTOP, value: 16.0),
       ],
-      defaultValue: 12.0,
+      defaultValue: 14.0,
     ).value,
     fontWeight: FontWeight.w700,
     color: AppColors.textColorWhiteBold,
   );
 }
+
 getButtonBlackFont(BuildContext context) {
   return TextStyle(
     fontSize: ResponsiveValue(

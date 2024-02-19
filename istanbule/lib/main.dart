@@ -10,8 +10,7 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:get/get.dart';
 
 void main() {
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: AppColors.primary1,
   ));
   runApp(const MyApp());
@@ -41,7 +40,7 @@ class MyApp extends StatelessWidget {
       locale: const Locale('ru'),
       //getPages: RoutingManager.pages,
       //initialRoute: RoutesName.splashScreen,
-      home: LoginScreen(),
+      home: MainScreen(),
     );
   }
 }
