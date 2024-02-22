@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:istanbule/core/model/cartModel.dart';
@@ -26,66 +28,82 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // height: MediaQuery.of(context).size.height,
+      height: MediaQuery.of(context).size.height * 0.7,
       width: MediaQuery.of(context).size.width / 1.4,
       decoration: BoxDecoration(
         color: const Color.fromARGB(255, 255, 255, 255),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            height: 200,
+            height: MediaQuery.sizeOf(context).height * 0.3,
             // width: MediaQuery.of(context).size.width / 2 - 20,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(10), topRight: Radius.circular(10)),
               image: DecorationImage(
-                  image: AssetImage(
+                  image: NetworkImage(
                     product.imgUrl!,
                   ),
                   fit: BoxFit.cover),
             ),
           ),
           const SizedBox(height: 5),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.16,
+            child: Column(
               children: [
-                Text('nameProduct'.tr, style: getTitleFont(context)),
-                Text(
-                  product.name!,
-                  style: getHeadFont(context),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('nameProduct'.tr, style: getTitleFont(context)),
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.04,
+                        width: 150,
+                        child: Marquee(
+                          text: product.name!,
+                          scrollAxis: Axis.horizontal,
+                          blankSpace: 80.0,
+                          velocity: 25.0,
+                          style: getHeadFont(context),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Price'.tr, style: getTitleFont(context)),
+                      Text(product.price.toString(),
+                          style: getSupTitleFont(context)),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Total'.tr, style: getTitleFont(context)),
+                      Text(product.quantity.toString(),
+                          style: getSupTitleFont(context)),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
                 ),
               ],
             ),
-          ),
-          const SizedBox(height: 5),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Price'.tr, style: getTitleFont(context)),
-                Text(product.price.toString(), style: getSupTitleFont(context)),
-              ],
-            ),
-          ),
-          const SizedBox(height: 5),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Total'.tr, style: getTitleFont(context)),
-                Text(product.quantity.toString(),
-                    style: getSupTitleFont(context)),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 10,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -105,7 +123,7 @@ class ProductCard extends StatelessWidget {
                         }
                       },
                       child: Container(
-                        height: 45,
+                        height: MediaQuery.of(context).size.height * 0.06,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: AppColors.primary1),
@@ -153,7 +171,7 @@ class ProductCard extends StatelessWidget {
                     );
                   },
                   child: Container(
-                    height: 45,
+                    height: MediaQuery.of(context).size.height * 0.06,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: AppColors.cardDark),
@@ -178,9 +196,6 @@ class ProductCard extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-          const SizedBox(
-            height: 10,
           ),
         ],
       ),

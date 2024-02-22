@@ -19,8 +19,7 @@ class ProductController extends GetxController {
         productModel = value; // Update the productModel with the fetched data
         print("successfully fetch products");
         print("this topProduct: " + '${productState.result.topProducts}');
-        print("this topProduct: " + '${productModel.topProducts}');
-      },
+        },
       onError: (value) {
         print("error during fetch products");
       },

@@ -38,7 +38,7 @@ class OfferCard extends StatelessWidget {
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(10), topRight: Radius.circular(10)),
               image: DecorationImage(
-                  image: AssetImage(
+                  image: NetworkImage(
                     offer.imgUrl!,
                   ),
                   fit: BoxFit.cover),

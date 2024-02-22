@@ -43,11 +43,7 @@ class HeaderSection extends StatelessWidget {
               const SizedBox(
                 width: 10,
               ),
-              const Text(
-                'Hello Fares',
-                style: TextStyle(
-                    color: AppColors.textColorWhiteBold, fontSize: 16),
-              )
+          
             ],
           ),
         ),
