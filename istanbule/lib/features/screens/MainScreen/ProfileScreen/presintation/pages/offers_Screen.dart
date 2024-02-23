@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:istanbule/features/screens/MainScreen/FavoritScreen/widgets/cardFavority.dart';
+import 'package:istanbule/features/screens/MainScreen/FavoritScreen/presintation/widgets/cardFavority.dart';
 import 'package:istanbule/features/screens/widgets/main_Appbar.dart';
 import 'package:istanbule/features/screens/widgets/searchTextField.dart';
 
 import '../../../../../../controllers/cart_controller.dart';
 import '../../../../../../core/model/cartModel.dart';
-import '../../../../widgets/emptyCard.dart';
+import '../../../../widgets/empty_card.dart';
 
 class OffersScreen extends StatelessWidget {
   OffersScreen({super.key, });
@@ -54,25 +54,25 @@ class OffersScreen extends StatelessWidget {
          Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(
-              height: 20,
-            ),
-            SearchField(),
-            SizedBox(height: 20,),
-            Expanded(
-              child: ListView.builder(
-                physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsets.all(8.0),
-                itemCount: 4,
-                itemBuilder: (context, index) {
-                  return ProductCard(
-                    product: products[index],
-                    isWidget: true,
-                    isOffer: true,
-                  );
-                },
-              ),
-            ),
+            // const SizedBox(
+            //   height: 20,
+            // ),
+            // SearchField(),
+            // SizedBox(height: 20,),
+            // Expanded(
+            //   child: ListView.builder(
+            //     physics: const BouncingScrollPhysics(),
+            //     padding: const EdgeInsets.all(8.0),
+            //     itemCount: 4,
+            //     itemBuilder: (context, index) {
+            //       return ProductCard(
+            //         product: products[index],
+            //         isWidget: true,
+            //         isOffer: true,
+            //       );
+            //     },
+            //   ),
+            // ),
           ],
         ),
       ),

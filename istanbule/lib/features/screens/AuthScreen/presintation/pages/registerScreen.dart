@@ -8,7 +8,6 @@ import 'package:istanbule/features/Utils/responsive.dart';
 import 'package:istanbule/features/Utils/them.dart';
 import 'package:istanbule/features/screens/AuthScreen/presintation/controller/user_controller.dart';
 import 'package:istanbule/features/screens/AuthScreen/presintation/pages/loginScreen.dart';
-import 'package:istanbule/features/screens/AuthScreen/presintation/widgets/pair.dart';
 import 'package:istanbule/features/screens/AuthScreen/presintation/widgets/passwordTextField.dart';
 import 'package:istanbule/features/screens/AuthScreen/presintation/widgets/textField.dart';
 import 'package:istanbule/features/screens/widgets/mainButton.dart';
@@ -21,18 +20,9 @@ class RegisterScreen extends StatelessWidget {
   RegExp emailRegex = RegExp(
       r'^[\w-]+(\.[\w-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$');
 
-  final List<Pair> _list = [
-    const Pair('Moscow', Icons.developer_board),
-    const Pair('Saint Petersburg', Icons.deblur_sharp),
-    const Pair('Nizhny Novgorod', Icons.money_off),
-  ];
-
-  Future<List<Pair>> _getFakeRequestData(String query) async {
-    return await Future.delayed(const Duration(seconds: 1), () {
-      return _list.where((e) {
-        return e.text.toLowerCase().contains(query.toLowerCase());
-      }).toList();
-    });
+  Future<List> _getCities(String query) async {
+    await userController.getCities();
+    return userController.stateCities.result.map((city) => city.name).toList();
   }
 
   final UserController userController = Get.put(UserController());
@@ -44,6 +34,7 @@ class RegisterScreen extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.primary1,
       body: SingleChildScrollView(
+        physics: const ClampingScrollPhysics(),
         child: ResponsiveLayout(
           builder: (BuildContext context, Orientation orientation) {
             return SafeArea(
@@ -138,6 +129,7 @@ class RegisterScreen extends StatelessWidget {
                                 if (value == null || value.isEmpty) {
                                   return "Please enter an First Name".tr;
                                 }
+                                return null;
                               },
                             ),
                             const SizedBox(
@@ -173,11 +165,12 @@ class RegisterScreen extends StatelessWidget {
                               onChanged: (value) {
                                 userController.userModel.phone = value;
                               },
-                              initialValue: userController.userModel.phone,
+                              initialValue:'+${userController.userModel.phone}',
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return "Please enter a Phone Number".tr;
                                 }
+                                return null;
                               },
                             ),
                             const SizedBox(
@@ -220,11 +213,48 @@ class RegisterScreen extends StatelessWidget {
                             const SizedBox(
                               height: 20,
                             ),
-                            CustomDropdown<Pair>.searchRequest(
-                              futureRequest: _getFakeRequestData,
+                            CustomDropdown.searchRequest(
+                              futureRequest: _getCities,
                               hintText: 'City'.tr,
-                              items: _list,
+                              items: userController.stateCities.result
+                                  .map((city) => city.name)
+                                  .toList(),
+                              listItemBuilder: (context, item) {
+                                return Obx(() {
+                                  if (userController.stateCities.loading) {
+                                    return const Center(
+                                        child: Text("Loading..."));
+                                  } else if (userController
+                                      .stateCities.hasError) {
+                                    return const Center(
+                                        child: Text("Error loading cities"));
+                                  } else if (userController
+                                      .stateCities.result.isEmpty) {
+                                    return const Center(
+                                        child: Text("No cities available"));
+                                  } else {
+                                    return SizedBox(
+                                      height: 300,
+                                      child: ListView.builder(
+                                        itemCount: userController
+                                            .stateCities.result.length,
+                                        itemBuilder: (context, index) {
+                                          return ListTile(
+                                            title: Text(userController
+                                                .stateCities
+                                                .result[index]
+                                                .name!),
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  }
+                                });
+                              },
                               onChanged: (value) {
+                                // value = userController.stateCities.result
+                                //     .map((city) => city.id)
+                                //     .toList();
                                 print('changing value to: $value');
                               },
                               closedBorder: Border.all(

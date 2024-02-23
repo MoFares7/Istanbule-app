@@ -6,7 +6,7 @@ import 'package:istanbule/features/Utils/responsive.dart';
 import 'package:istanbule/features/Utils/them.dart';
 import 'package:istanbule/features/screens/MainScreen/CartScreen/widgets/cartCard.dart';
 import 'package:istanbule/features/screens/MainScreen/mainScreen.dart';
-import 'package:istanbule/features/screens/widgets/emptyCard.dart';
+import 'package:istanbule/features/screens/widgets/empty_card.dart';
 
 import '../../../../widgets/searchTextField.dart';
 
@@ -46,9 +46,10 @@ class CartScreen extends StatelessWidget {
                         ),
                         Expanded(
                           child: cartItems.isEmpty
-                              ? Center(
+                              ? const Center(
                                   child: EmptyCard(
                                   image: 'assets/icons/empty.svg',
+                                  title: 'Not found products',
                                 ))
                               : ListView.builder(
                                   physics: const BouncingScrollPhysics(),

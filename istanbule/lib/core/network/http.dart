@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:istanbule/core/storage/storage.dart';
 
 import '../../features/Utils/utils.dart';
 import '../network/dio.dart';
@@ -32,11 +33,11 @@ class Request {
     this.queryParams,
   }) {
     if (authorized) {
-      //  LocalStorage local = LocalStorage();
-      //   log('my toooken : ${local.getToken()}');
-      //   headers = {
-      //     "Authorization": "Bearer " '${local.getToken()}',
-      //   };
+       LocalStorage local = LocalStorage();
+        log('my toooken : ${local.getToken()}');
+        headers = {
+          "Authorization": "Bearer " '${local.getToken()}',
+        };
     }
 
     if (isFormData) {

@@ -39,7 +39,6 @@ class LoginScreen extends StatelessWidget {
                             orientation == Orientation.portrait ? 7 / 3 : 5 / 1,
                         child: SvgPicture.asset(
                           'assets/images/login.svg',
-                     
                         ),
                       ),
                     ),
@@ -80,7 +79,8 @@ class LoginScreen extends StatelessWidget {
                                 onChanged: (value) {
                                   userController.userModel.phone = value;
                                 },
-                                initialValue: userController.userModel.phone,
+                                initialValue:
+                                    '+${userController.userModel.phone}',
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return "Please enter a Phone Number".tr;

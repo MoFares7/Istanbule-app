@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:istanbule/core/translate/app_translate.dart';
 import 'package:istanbule/features/Utils/them.dart';
 import 'package:istanbule/features/screens/AuthScreen/presintation/pages/loginScreen.dart';
-import 'package:istanbule/features/screens/AuthScreen/presintation/pages/registerScreen.dart';
 import 'package:istanbule/features/screens/MainScreen/mainScreen.dart';
-import 'package:istanbule/features/screens/SplachScreen/presintation/pages/splachSscreen.dart';
+
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:get/get.dart';
 
-void main() {
+void main() async {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: AppColors.primary1,
   ));
+  await GetStorage.init();
   runApp(const MyApp());
 }
 
@@ -37,10 +38,10 @@ class MyApp extends StatelessWidget {
       ),
       translations: AppTranslations(),
       fallbackLocale: const Locale('en'),
-      locale: const Locale('ru'),
+      locale: const Locale('en'),
       //getPages: RoutingManager.pages,
       //initialRoute: RoutesName.splashScreen,
-      home: MainScreen(),
+      home: const MainScreen(),
     );
   }
 }

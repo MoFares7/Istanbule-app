@@ -22,7 +22,7 @@ class MainScreen extends StatelessWidget {
       HomeScreen(),
       CartScreen(),
       FavoritScreen(),
-      const ProfileScreen(),
+       ProfileScreen(),
     ];
 
     return Scaffold(

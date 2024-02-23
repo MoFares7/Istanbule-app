@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-import 'package:istanbule/features/screens/AuthScreen/domain/entity/user.dart';
 
 class UserModel {
   String? id;
@@ -29,21 +27,12 @@ class UserModel {
       'email': email,
       'password': password,
       'phone_no': phone,
-      'city_id': 1,
-      'message': message
+      'city_id': city,
+      'message': message,
+      'access_token': token
       // 'img_url': ''
     };
   }
-
-  // factory UserModel.fromMap(Map<String, dynamic> map) {
-  //   return UserModel(
-  //       name: map['name'],
-  //       email: map['email'],
-  //       password: map['password'],
-  //       phone: map['phone_no'],
-  //       city: map[1],
-  //       image: map['img_url']);
-  // }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
@@ -55,6 +44,7 @@ class UserModel {
       city: map["city_id"],
       image: map['img_url'],
       message: map['message'],
+      token: map['access_token']
     );
   }
 
@@ -65,5 +55,7 @@ class UserModel {
       phone: "",
       city: 1,
       image: "",
-      message: "");
+      message: "",
+      token: ""
+      );
 }
