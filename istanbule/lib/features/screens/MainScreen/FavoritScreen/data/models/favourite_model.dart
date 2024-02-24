@@ -40,5 +40,5 @@ class FavouriteModel {
   }
 
   factory FavouriteModel.zero() =>
-      FavouriteModel(id: 0, favouriteName: '', imgUrl: '', type: '');
+      FavouriteModel(favouriteName: '', imgUrl: '', type: '');
 }

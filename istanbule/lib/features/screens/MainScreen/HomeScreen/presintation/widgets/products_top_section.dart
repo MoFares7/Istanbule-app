@@ -6,6 +6,7 @@ import 'package:istanbule/features/screens/MainScreen/HomeScreen/presintation/co
 import 'package:istanbule/features/screens/MainScreen/HomeScreen/presintation/widgets/productCard.dart';
 import 'package:istanbule/features/screens/MainScreen/HomeScreen/presintation/widgets/productCard.dart';
 import 'package:istanbule/features/screens/widgets/empty_card.dart';
+import 'package:istanbule/features/screens/widgets/loading_card.dart';
 import 'package:lottie/lottie.dart';
 
 class ProductsTop extends StatelessWidget {
@@ -25,19 +26,18 @@ class ProductsTop extends StatelessWidget {
     return Obx(
       () {
         if (productController.productState.loading) {
-          return Center(
-            child: Lottie.asset("assets/lottie/looding.json", width: 50),
-          );
+          return const Center(child: ShimmerCard());
         }
         if (productController.productState.result.topProducts.isEmpty) {
           return EmptyCard(
             title: "Not Found any Products yet",
             image: 'assets/icons/empty_product.svg',
             width: MediaQuery.of(context).size.width * 0.1,
+            isAbleToRefresh: true,
           );
         }
         return SizedBox(
-          height: MediaQuery.sizeOf(context).height * 0.7,
+          height: MediaQuery.sizeOf(context).height * 0.65,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.all(16),
@@ -46,10 +46,12 @@ class ProductsTop extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
                 child: ProductCard(
-             
                   products:
-                      productController.productState.result.topProducts[index], 
-                        isOffer: false,
+                      productController.productState.result.topProducts[index],
+                  productId: productController
+                      .productState.result.topProducts[index].id,
+        
+                  isOffer: false,
                   onAddToCart: (int quantity) {
                     cartController.addToCart(CartItem(
                       name: products[index].name,
@@ -58,7 +60,6 @@ class ProductsTop extends StatelessWidget {
                       quantity: quantity,
                     ));
                   },
-               
                 ),
               );
             },

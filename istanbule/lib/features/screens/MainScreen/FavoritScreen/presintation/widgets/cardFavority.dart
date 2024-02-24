@@ -1,20 +1,23 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:istanbule/core/model/cartModel.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:istanbule/features/Utils/styled.dart';
 import 'package:istanbule/features/Utils/them.dart';
 import 'package:istanbule/features/screens/MainScreen/FavoritScreen/data/models/favourite_model.dart';
-import 'package:istanbule/features/screens/widgets/buySheet.dart';
+import 'package:istanbule/features/screens/MainScreen/FavoritScreen/presintation/controller/favourite_controller.dart';
+import 'package:istanbule/features/screens/MainScreen/HomeScreen/widgets/cartSheet.dart';
+import 'package:lottie/lottie.dart';
 
 class FavouriteCard extends StatelessWidget {
-  const FavouriteCard({
-    super.key,
-    this.favouite,
-  });
+  FavouriteCard({super.key, this.favouite, this.productId});
 
   final FavouriteModel? favouite;
-
+  FavouriteController favouriteController = Get.put(FavouriteController());
+  final int? productId;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -30,14 +33,14 @@ class FavouriteCard extends StatelessWidget {
               alignment: Alignment.topRight,
               children: [
                 Container(
-                  height: 140,
+                  height: MediaQuery.of(context).size.height * 0.3,
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(10),
                         topRight: Radius.circular(10)),
                     image: DecorationImage(
                         image: NetworkImage(favouite!.imgUrl!.toString()),
-                        fit: BoxFit.cover),
+                        fit: BoxFit.scaleDown),
                   ),
                 ),
               ],
@@ -75,25 +78,90 @@ class FavouriteCard extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            MaterialButton(
-              onPressed: () {},
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                decoration: BoxDecoration(
-                    color: AppColors.primary1,
-                    borderRadius: BorderRadius.circular(10.0)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Center(
-                        child: Text('Add to cart'.tr,
-                            style: getButtonFont(context))),
-                  ],
+            Obx(() {
+              if (favouriteController.makeFavouriteState.loading) {
+                return Lottie.asset("assets/lottie/looding.json", width: 50);
+              }
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: InkWell(
+                  onTap: () async {
+                    favouriteController.makeFavourite(productId!);
+                    favouriteController.getFavourite();
+                  },
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.06,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: AppColors.primary1),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 1, horizontal: 6),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(
+                            'Remove to favorit'.tr,
+                            // : 'remove from favorit'.tr,
+                            style: getButtonFont(context),
+                          ),
+                          SvgPicture.asset(
+                            'assets/icons/favorit.svg',
+                            color: AppColors.textColorWhiteBold,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }),
+            const Gap(10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: InkWell(
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    shape: const RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(10))),
+                    builder: (_) {
+                      return CartSheet(
+                        onAddToCart: (int quantity) {
+                          // onAddToCart?.call(quantity);
+                        },
+                      );
+                    },
+                  );
+                },
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.06,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: AppColors.cardDark),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 1, horizontal: 6),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          'Add to cart'.tr,
+                          style: getButtonFont(context),
+                        ),
+                        SvgPicture.asset(
+                          'assets/icons/cart.svg',
+                          color: AppColors.textColorWhiteBold,
+                        )
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),
+            const Gap(10),
           ],
         ),
       ),

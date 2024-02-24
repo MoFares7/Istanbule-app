@@ -6,7 +6,9 @@ import 'package:get/get.dart';
 import 'package:istanbule/core/model/cartModel.dart';
 import 'package:istanbule/features/Utils/responsive.dart';
 import 'package:istanbule/features/screens/MainScreen/CartScreen/presintation/pages/cartScreen.dart';
+import 'package:istanbule/features/screens/MainScreen/FavoritScreen/presintation/controller/favourite_controller.dart';
 import 'package:istanbule/features/screens/MainScreen/FavoritScreen/presintation/pages/favoritScreen.dart';
+import 'package:istanbule/features/screens/MainScreen/FavoritScreen/presintation/widgets/cardFavority.dart';
 import 'package:istanbule/features/screens/MainScreen/HomeScreen/presintation/pages/homeScreen.dart';
 import 'package:istanbule/features/screens/MainScreen/ProfileScreen/presintation/pages/profileScreen.dart';
 import '../../Utils/them.dart';
@@ -22,9 +24,10 @@ class MainScreen extends StatelessWidget {
       HomeScreen(),
       CartScreen(),
       FavoritScreen(),
-       ProfileScreen(),
+      ProfileScreen(),
     ];
-
+    final FavouriteController favouriteController =
+        Get.put(FavouriteController());
     return Scaffold(
       backgroundColor: AppColors.scaffoldBackgroundColor,
       body: ValueListenableBuilder<int>(
@@ -157,6 +160,7 @@ class MainScreen extends StatelessWidget {
                             ),
                           ],
                           onTap: (int index) {
+                            favouriteController.getFavourite();
                             currentIndex.value = index;
                           },
                         ),

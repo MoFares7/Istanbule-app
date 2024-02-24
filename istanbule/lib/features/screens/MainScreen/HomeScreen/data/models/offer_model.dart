@@ -55,6 +55,12 @@ class Offer {
       favouriteCount: json['favourite_count'],
     );
   }
+
+    static List<Offer> fromJsonList(Map<String, dynamic> json) {
+    List<Offer> offer = [];
+    json["data"].forEach((element) => offer.add(Offer.fromJson(element)));
+    return offer;
+  }
   Offer.zero() {
     Offer(offerId: 0, price: 0, productId: 0);
   }

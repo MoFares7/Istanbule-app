@@ -9,8 +9,10 @@ import 'package:istanbule/features/Utils/styled.dart';
 import 'package:istanbule/features/screens/MainScreen/HomeScreen/data/models/ads_model.dart';
 import 'package:istanbule/features/screens/MainScreen/HomeScreen/data/models/manage_product_model.dart';
 import 'package:istanbule/features/screens/MainScreen/HomeScreen/presintation/controller/product_controller.dart';
+import 'package:istanbule/features/screens/MainScreen/HomeScreen/presintation/widgets/productCard.dart';
 import 'package:istanbule/features/screens/MainScreen/HomeScreen/presintation/widgets/products_offers_section.dart';
 import 'package:istanbule/features/screens/MainScreen/HomeScreen/presintation/widgets/products_top_section.dart';
+import 'package:istanbule/features/screens/widgets/loading_card.dart';
 import '../../../../../Utils/them.dart';
 import '../../../../widgets/searchTextField.dart';
 
@@ -32,96 +34,99 @@ class HomeScreen extends StatelessWidget {
   CartController cartController = Get.put(CartController());
   ProductController productController = Get.put(ProductController());
   List<Product> products = [];
-  
+
   @override
   Widget build(BuildContext context) {
     productController.getProducts();
     return Scaffold(
       backgroundColor: AppColors.scaffoldBackgroundColor,
       body: SafeArea(
-        child: ResponsiveLayout(
-          builder: (BuildContext context, Orientation orientation) {
-            return Padding(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CarouselSlider(
-                      items: [
-                        Obx(() {
-                          return ListView.builder(
-                            itemCount: productController
-                                .productState.result.ads.length,
-                            itemBuilder: (context, index) {
-                              if (productController.productState.loading) {
-                                return const Center(child: Text(""));
-                              }
-                              return AdsCard(
-                                ad: productController
-                                    .productState.result.ads[index],
-                              );
-                            },
-                          );
-                        }),
-                      ],
-                      options: CarouselOptions(
-                        autoPlay: true,
-                        enlargeCenterPage: true,
-                        viewportFraction: 0.9,
-                        // aspectRatio: 2.0,
-                        initialPage: 2,
-                        height: MediaQuery.of(context).size.height * 0.25,
-                        aspectRatio: 16 / 9,
-                        enableInfiniteScroll: true,
-                        reverse: false,
-                        autoPlayInterval: const Duration(seconds: 3),
-                        autoPlayAnimationDuration:
-                            const Duration(milliseconds: 800),
-                        autoPlayCurve: Curves.fastOutSlowIn,
-                        enlargeFactor: 0.3,
-                        scrollDirection: Axis.horizontal,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 20, right: 7, left: 7, bottom: 20),
-                      child: SearchField(),
-                    ),
-                    Text(
-                      'Most Sold Products'.tr,
-                      style: getTitleHomeFont(context),
-                    ),
-                    ProductsTop(
-                        productController: productController,
-                        cartController: cartController,
-                        products: products),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      'Most Offer Products'.tr,
-                      style: getTitleHomeFont(context),
-                    ),
-                    ProductsOffters(
-                        productController: productController,
-                        cartController: cartController,
-                        products: products),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                  ],
-                ),
-              ),
-            );
+        child: RefreshIndicator(
+          onRefresh: () async {
+            productController.getProducts();
           },
+          child: ResponsiveLayout(
+            builder: (BuildContext context, Orientation orientation) {
+              return Padding(
+                padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CarouselSlider(
+                        items: [
+                          Obx(() {
+                            if (productController.productState.loading) {
+                              return const Center(child: ShimmerAds());
+                            }
+                            return ListView.builder(
+                              itemCount: productController
+                                  .productState.result.ads.length,
+                              itemBuilder: (context, index) {
+                                return AdsCard(
+                                  ad: productController
+                                      .productState.result.ads[index],
+                                );
+                              },
+                            );
+                          }),
+                        ],
+                        options: CarouselOptions(
+                          autoPlay: true,
+                          enlargeCenterPage: true,
+                          viewportFraction: 0.9,
+                          // aspectRatio: 2.0,
+                          initialPage: 2,
+                          height: MediaQuery.of(context).size.height * 0.25,
+                          aspectRatio: 16 / 9,
+                          enableInfiniteScroll: true,
+                          reverse: false,
+                          autoPlayInterval: const Duration(seconds: 3),
+                          autoPlayAnimationDuration:
+                              const Duration(milliseconds: 800),
+                          autoPlayCurve: Curves.fastOutSlowIn,
+                          enlargeFactor: 0.3,
+                          scrollDirection: Axis.horizontal,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 20, right: 7, left: 7, bottom: 20),
+                        child: SearchField(),
+                      ),
+                      Text(
+                        'Most Sold Products'.tr,
+                        style: getTitleHomeFont(context),
+                      ),
+                      ProductsTop(
+                          productController: productController,
+                          cartController: cartController,
+                          products: products),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        'Most Offer Products'.tr,
+                        style: getTitleHomeFont(context),
+                      ),
+                      ProductsOffters(
+                          productController: productController,
+                          cartController: cartController,
+                          products: products),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
   }
-
-
 }
 
 class AdsCard extends StatelessWidget {

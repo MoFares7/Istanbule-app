@@ -9,6 +9,7 @@ import 'package:istanbule/features/screens/MainScreen/HomeScreen/data/models/off
 import 'package:istanbule/features/screens/MainScreen/HomeScreen/data/models/products_model.dart';
 import 'package:istanbule/features/screens/MainScreen/HomeScreen/widgets/cartSheet.dart';
 import 'package:marquee/marquee.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ProductCard extends StatelessWidget {
   ProductCard(
@@ -17,13 +18,15 @@ class ProductCard extends StatelessWidget {
       this.offer,
       this.onAddToCart,
       required this.isOffer,
-      this.productId});
+      this.productId,
+      this.productOfferId});
 
   final Products? products;
   final Offer? offer;
   final void Function(int)? onAddToCart;
   final bool isOffer;
   final int? productId;
+  final int? productOfferId;
 
   FavouriteController favouriteController = Get.put(FavouriteController());
   @override
@@ -39,7 +42,7 @@ class ProductCard extends StatelessWidget {
         children: [
           Container(
             height: MediaQuery.sizeOf(context).height * 0.3,
-            // width: MediaQuery.of(context).size.width / 2 - 20,
+            width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(10), topRight: Radius.circular(10)),
@@ -47,7 +50,7 @@ class ProductCard extends StatelessWidget {
                   image: NetworkImage(
                     isOffer ? offer!.imgUrl! : products!.imgUrl!,
                   ),
-                  fit: BoxFit.cover),
+                  fit: BoxFit.scaleDown),
             ),
           ),
           const SizedBox(height: 5),
@@ -111,15 +114,17 @@ class ProductCard extends StatelessWidget {
               // mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Obx(() {
-                  if (favouriteController.favouriteState.loading) {
+                  if (favouriteController.makeFavouriteState.loading) {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
                   }
                   return InkWell(
-                    onTap: () async {
-                      await favouriteController.favouriteApi.makeFavourite(
-                          isOffer ? offer!.productId : products!.id);
+                    onTap: () {
+                      print("sending");
+                      favouriteController
+                          .makeFavourite(isOffer ? productOfferId : productId);
+                      print("sended");
                     },
                     child: Container(
                       height: MediaQuery.of(context).size.height * 0.06,

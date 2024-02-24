@@ -8,6 +8,7 @@ import 'package:istanbule/features/screens/AuthScreen/presintation/pages/loginSc
 import 'package:istanbule/features/screens/AuthScreen/presintation/pages/registerScreen.dart';
 import 'package:istanbule/features/screens/MainScreen/ProfileScreen/presintation/pages/my_request.dart';
 import 'package:istanbule/features/screens/MainScreen/ProfileScreen/presintation/pages/offers_Screen.dart';
+import 'package:istanbule/features/screens/MainScreen/ProfileScreen/presintation/widgets/logout_dialog.dart';
 import 'package:istanbule/features/screens/MainScreen/ProfileScreen/presintation/widgets/selectCard.dart';
 import 'package:istanbule/features/screens/widgets/mainButton.dart';
 
@@ -178,8 +179,18 @@ class ProfileScreen extends StatelessWidget {
                 title: 'Logout'.tr,
                 icon: 'assets/icons/logout.svg',
                 onTap: () {
-                  localStorage.clearCache();
-                  Get.offAll(LoginScreen());
+                  // localStorage.clearCache();
+                  // Get.offAll(LoginScreen());
+                  showDialog<bool>(
+                    context: context,
+                    builder: (ctx) =>  LogoutDialog(),
+                  ).then((value) {
+                    if (value != null && value) {
+                      // Dispatch the logout event
+                      return true;
+                    }
+                    return false;
+                  });
                 },
               ),
             ],

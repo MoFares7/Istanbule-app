@@ -10,9 +10,10 @@ class FavouriteApi {
     return FavouriteModel.fromJsonList(res);
   }
 
-  Future<FavouriteModel> makeFavourite(int? id) async {
+  Future<FavouriteModel> makeFavourites(int? id) async {
+
     Request request = Request(
-        "/toggleFavourite/$id",
+        "https://rest.istanbulru.com/api/toggleFavourite/$id",
         RequestMethod.get,
         authorized: true);
     Map<String, dynamic> response = await request.sendRequest();

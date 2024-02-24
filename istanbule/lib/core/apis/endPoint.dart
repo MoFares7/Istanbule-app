@@ -6,7 +6,7 @@ class EndPoints {
   static String getCities = "/showCities";
 
   static String getProduct = "/home";
-  static String favourite = "/http://127.0.0.1:8000/api/toggleFavourite/6";
+  static String getOffers = "/searchOffers";
   static String getFavourite = "/showFavourites";
 
 }

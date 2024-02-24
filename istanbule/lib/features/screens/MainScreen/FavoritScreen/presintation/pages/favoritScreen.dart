@@ -2,9 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:istanbule/features/Utils/them.dart';
 import 'package:istanbule/features/screens/MainScreen/FavoritScreen/presintation/controller/favourite_controller.dart';
 import 'package:istanbule/features/screens/MainScreen/FavoritScreen/presintation/widgets/cardFavority.dart';
 import 'package:istanbule/features/screens/widgets/empty_card.dart';
+import 'package:istanbule/features/screens/widgets/loading_card.dart';
 import 'package:lottie/lottie.dart';
 
 class FavoritScreen extends StatelessWidget {
@@ -13,37 +15,31 @@ class FavoritScreen extends StatelessWidget {
   });
 
   FavouriteController favouriteController = Get.put(FavouriteController());
+
   @override
   Widget build(BuildContext context) {
     favouriteController.getFavourite();
-
-    print("favouriteController.favouriteState.result.length");
-    print(favouriteController.favouriteState.result.length);
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 7),
-        child: RefreshIndicator(
-          onRefresh: () async {
-            await favouriteController.getFavourite();
-          },
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(
-                height: 20,
-              ),
               Expanded(
                 child: Obx(
                   () {
                     if (favouriteController.favouriteState.result.isEmpty) {
                       return Center(
                         child: EmptyCard(
-                            image: 'assets/icons/noData.svg',
-                            title: 'Not found products',
-                            width: 200,
-                            onRefresh: () {
-                              favouriteController.getFavourite();
-                            }),
+                          image: 'assets/icons/noData.svg',
+                          title: 'Not found products',
+                          width: MediaQuery.of(context).size.width * 0.5,
+                          isAbleToRefresh: false,
+                          onRefresh: () {
+                            favouriteController.getFavourite();
+                          },
+                        ),
                       );
                     }
                     if (favouriteController.favouriteState.loading) {
@@ -61,6 +57,8 @@ class FavoritScreen extends StatelessWidget {
                         return FavouriteCard(
                           favouite:
                               favouriteController.favouriteState.result[index],
+                          productId: favouriteController
+                              .favouriteState.result[index].id,
                         );
                       },
                     );
@@ -70,6 +68,13 @@ class FavoritScreen extends StatelessWidget {
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.primary1,
+        onPressed: () async {
+          favouriteController.getFavourite();
+        },
+        child: const Icon(Icons.refresh),
       ),
     );
   }

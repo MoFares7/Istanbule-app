@@ -10,6 +10,7 @@ class ProductController extends GetxController {
   Offer offerModel = Offer.zero();
 
   RxFuture<ProductModel> productState = RxFuture(ProductModel.zero());
+  RxFuture<List<Offer>> offerState = RxFuture(<Offer>[]);
   ProductApi productApi = ProductApi();
 
   Future<void> getProducts() async {
@@ -18,12 +19,26 @@ class ProductController extends GetxController {
         return await productApi.getProducts();
       },
       onSuccess: (value) {
-        productModel = value; 
+        productModel = value;
         print("successfully fetch products");
         print("this topProduct: " + '${productState.result.topProducts}');
-        },
+      },
       onError: (value) {
         print("error during fetch products");
+      },
+    );
+  }
+
+  Future<void> getOffers() async {
+    offerState.observe(
+      (value) async {
+        return await productApi.getOffers();
+      },
+      onSuccess: (value) {
+        print("successfully fetch offers");
+      },
+      onError: (value) {
+        print("error during fetch offers");
       },
     );
   }

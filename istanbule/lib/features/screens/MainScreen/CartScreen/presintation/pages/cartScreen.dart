@@ -46,10 +46,13 @@ class CartScreen extends StatelessWidget {
                         ),
                         Expanded(
                           child: cartItems.isEmpty
-                              ? const Center(
+                              ? Center(
                                   child: EmptyCard(
                                   image: 'assets/icons/empty.svg',
                                   title: 'Not found products',
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.5,
+                                  isAbleToRefresh: true,
                                 ))
                               : ListView.builder(
                                   physics: const BouncingScrollPhysics(),
