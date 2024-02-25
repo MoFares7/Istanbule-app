@@ -3,7 +3,6 @@ class Products {
   String? name;
   String? imgUrl;
   int? typeId;
-  String? type;
   String? disc;
   String? longDisc;
   int? price;
@@ -17,7 +16,6 @@ class Products {
     this.name,
     this.imgUrl,
     this.typeId,
-    this.type,
     this.disc,
     this.longDisc,
     this.price,
@@ -33,7 +31,6 @@ class Products {
       name: json['name'],
       imgUrl: json['img_url'],
       typeId: json['type_id'],
-      type: json['type'],
       disc: json['disc'],
       longDisc: json['long_disc'],
       price: json['price'],
@@ -42,5 +39,21 @@ class Products {
       visible: json['visible'],
       favouriteCount: json['favourite_count'],
     );
+  }
+  static List<Products> fromJsonList(Map<String, dynamic> json) {
+    List<Products> products = [];
+    json["products"]
+        .forEach((element) => products.add(Products.fromJson(element)));
+    return products;
+  } 
+   static List<Products> fromJsonListProduct(Map<String, dynamic> json) {
+    List<Products> products = [];
+    json["data"]
+        .forEach((element) => products.add(Products.fromJson(element)));
+    return products;
+  }
+
+  Products.zero() {
+    Products(id: 0, price: 0, imgUrl: '', name: '', disc: '');
   }
 }

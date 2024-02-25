@@ -4,7 +4,8 @@ import 'package:istanbule/controllers/cart_controller.dart';
 import 'package:istanbule/core/model/cartModel.dart';
 import 'package:istanbule/features/Utils/responsive.dart';
 import 'package:istanbule/features/Utils/them.dart';
-import 'package:istanbule/features/screens/MainScreen/CartScreen/widgets/cartCard.dart';
+import 'package:istanbule/features/screens/MainScreen/CartScreen/presintation/widget/cartCard.dart';
+import 'package:istanbule/features/screens/MainScreen/ProductsScreen/presintaiton/pages/product_screen.dart';
 import 'package:istanbule/features/screens/MainScreen/mainScreen.dart';
 import 'package:istanbule/features/screens/widgets/empty_card.dart';
 
@@ -78,12 +79,9 @@ class CartScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
           backgroundColor: AppColors.primary1,
           onPressed: () {
-            // Add your desired action when the button is pressed
-            print('FloatingActionButton pressed!');
+            Get.to(ProductScreen());
           },
-          child: const Icon(
-              Icons.add) // You can change the icon to your preference
-          ),
+          child: const Icon(Icons.add)),
     );
   }
 }

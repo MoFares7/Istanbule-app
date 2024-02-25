@@ -21,7 +21,7 @@ class OffersScreen extends StatelessWidget {
   ProductController productController = Get.put(ProductController());
   @override
   Widget build(BuildContext context) {
-    productController.getOffers();
+    productController.getOffers(best: '');
     return Scaffold(
       appBar: MainAppBar(
         titleAppBar: 'Last offer'.tr,
@@ -42,32 +42,42 @@ class OffersScreen extends StatelessWidget {
                           width: 200,
                           isAbleToRefresh: true,
                           onRefresh: () {
-                            productController.getOffers();
+                            productController.getOffers(best: '');
                           }),
                     );
                   }
                   if (productController.offerState.loading) {
-                    return const Center(
-                      child:
-                         ShimmerCard()
-                    );
+                    return const Center(child: ShimmerCard());
                   }
                   return ListView.builder(
                     physics: const BouncingScrollPhysics(),
                     padding: const EdgeInsets.all(8.0),
                     itemCount: productController.offerState.result.length,
                     itemBuilder: (context, index) {
-                      return ProductCard(
-                        offer: productController.offerState.result[index],
-                        isOffer: true,
-                        onAddToCart: (int quantity) {
-                          cartController.addToCart(CartItem(
-                            name: products![index].name,
-                            image: products![index].image,
-                            price: products![index].price,
-                            quantity: quantity,
-                          ));
-                        },
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: ProductCard(
+                          height: MediaQuery.sizeOf(context).height * 0.65,
+                          width: MediaQuery.of(context).size.width / 1.4,
+                          offer: productController.offerState.result[index],
+                          isOffer: true,
+                          isLastOffer: true,
+                          onAddToCart: (int quantity) {
+                            if (productController.offerState.result.isNotEmpty) {
+                              cartController.addToCart(CartItem(
+                                name: productController
+                                    .offerState.result[index].offerName,
+                                image: productController
+                                    .offerState.result[index].imgUrl,
+                                price: productController
+                                    .offerState.result[index].oldPrice,
+                                quantity: quantity,
+                              ));
+                              if (index <
+                                  productController.offerState.result.length) {}
+                            }
+                          },
+                        ),
                       );
                     },
                   );

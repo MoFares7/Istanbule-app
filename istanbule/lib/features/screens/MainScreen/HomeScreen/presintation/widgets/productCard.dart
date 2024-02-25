@@ -4,12 +4,10 @@ import 'package:get/get.dart';
 import 'package:istanbule/features/Utils/styled.dart';
 import 'package:istanbule/features/Utils/them.dart';
 import 'package:istanbule/features/screens/MainScreen/FavoritScreen/presintation/controller/favourite_controller.dart';
-import 'package:istanbule/features/screens/MainScreen/FavoritScreen/presintation/widgets/cardFavority.dart';
 import 'package:istanbule/features/screens/MainScreen/HomeScreen/data/models/offer_model.dart';
 import 'package:istanbule/features/screens/MainScreen/HomeScreen/data/models/products_model.dart';
 import 'package:istanbule/features/screens/MainScreen/HomeScreen/widgets/cartSheet.dart';
 import 'package:marquee/marquee.dart';
-import 'package:shimmer/shimmer.dart';
 
 class ProductCard extends StatelessWidget {
   ProductCard(
@@ -19,52 +17,116 @@ class ProductCard extends StatelessWidget {
       this.onAddToCart,
       required this.isOffer,
       this.productId,
-      this.productOfferId});
+      this.productOfferId,
+      required this.width,
+      required this.height,
+      this.widthMarquee,
+      required this.isLastOffer
+      });
 
   final Products? products;
   final Offer? offer;
   final void Function(int)? onAddToCart;
   final bool isOffer;
+  final bool isLastOffer;
   final int? productId;
   final int? productOfferId;
+  final double? widthMarquee;
+  final double width;
+  final double height;
 
   FavouriteController favouriteController = Get.put(FavouriteController());
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.sizeOf(context).height * 0.65,
-      width: MediaQuery.of(context).size.width / 1.4,
+      height: height,
+      width: width,
       decoration: BoxDecoration(
         color: const Color.fromARGB(255, 255, 255, 255),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
         children: [
-          Container(
-            height: MediaQuery.sizeOf(context).height * 0.3,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-              image: DecorationImage(
-                  image: NetworkImage(
-                    isOffer ? offer!.imgUrl! : products!.imgUrl!,
+          isOffer
+              ? Stack(
+                  alignment: Alignment.topRight,
+                  children: [
+                    Container(
+                      height: MediaQuery.sizeOf(context).height * 0.3,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10),
+                        ),
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            isOffer ? offer!.imgUrl! : products!.imgUrl!,
+                          ),
+                          fit: BoxFit.scaleDown,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.05,
+                      width: MediaQuery.of(context).size.width * 0.12,
+                      decoration: const BoxDecoration(
+                        color: AppColors.primary1,
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(10),
+                        ),
+                      ),
+                      child: Center(
+                        child: Text(
+                          '${offer?.percentage ?? 0}%',
+                          style: const TextStyle(
+                              color: AppColors.textColorWhiteBold),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: MediaQuery.sizeOf(context).height * 0.3,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10)),
+                        image: DecorationImage(
+                            image: NetworkImage(
+                              isOffer ? offer!.imgUrl! : products!.imgUrl!,
+                            ),
+                            fit: BoxFit.scaleDown),
+                      ),
+                    ),
+                  ],
+                )
+              : Container(
+                  height: MediaQuery.sizeOf(context).height * 0.3,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        topRight: Radius.circular(10)),
+                    image: DecorationImage(
+                        image: NetworkImage(
+                          isOffer ? offer!.imgUrl! : products!.imgUrl!,
+                        ),
+                        fit: BoxFit.scaleDown),
                   ),
-                  fit: BoxFit.scaleDown),
-            ),
-          ),
+                ),
           const SizedBox(height: 5),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('nameoffer'.tr, style: getTitleFont(context)),
+                Text(isOffer ? 'nameoffer'.tr : 'nameproduct'.tr,
+                    style: getTitleFont(context)),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.04,
                   width: 150,
                   child: Marquee(
-                    text: isOffer ? offer!.offerName! : products!.type!,
+                    text: isOffer ? offer!.offerName! : products!.name!,
                     scrollAxis: Axis.horizontal,
                     blankSpace: 80.0,
                     velocity: 25.0,
@@ -75,19 +137,53 @@ class ProductCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 5),
-          Padding(
+        isLastOffer ?  Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('Price'.tr, style: getTitleFont(context)),
                 Text(
-                    isOffer
-                        ? offer!.price!.toString()
-                        : products!.price!.toString(),
+                    
+                         offer!.oldPrice!.toString(),
+                        
                     style: getSupTitleFont(context)),
               ],
             ),
+          ):
+           Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Price'.tr, style: getTitleFont(context)),
+                      Text(
+                          isOffer
+                              ? offer!.price!.toString()
+                              : products!.price!.toString(),
+                          style: getSupTitleFont(context)),
+                    ],
+                  ),
+                ),
+          const SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(isOffer ? 'new price' : 'Total'.tr,
+                    style: getTitleFont(context)),
+                Text(
+                  isOffer
+                      ? (offer?.newPrice ?? 0).toString()
+                      : (products?.quantity ?? 0).toString(),
+                  style: getSupTitleFont(context),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 5,
           ),
           const SizedBox(height: 5),
           Padding(
@@ -95,13 +191,24 @@ class ProductCard extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Total'.tr, style: getTitleFont(context)),
-                Text(
-                  isOffer
-                      ? (offer?.quantity ?? 0).toString()
-                      : (products?.quantity ?? 0).toString(),
-                  style: getSupTitleFont(context),
+                Text('Descibetion'.tr, style: getTitleFont(context)),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.04,
+                  width: 150,
+                  child: Marquee(
+                    text: isOffer ? offer!.disc! : products!.disc!,
+                    scrollAxis: Axis.horizontal,
+                    blankSpace: 80.0,
+                    velocity: 25.0,
+                    style: getSupTitleFont(context),
+                  ),
                 ),
+                // Text(
+                //   isOffer
+                //       ? offer!.disc!
+                //       : products!.disc!,
+                //   style: getSupTitleFont(context),
+                // ),
               ],
             ),
           ),
@@ -121,10 +228,8 @@ class ProductCard extends StatelessWidget {
                   }
                   return InkWell(
                     onTap: () {
-                      print("sending");
                       favouriteController
                           .makeFavourite(isOffer ? productOfferId : productId);
-                      print("sended");
                     },
                     child: Container(
                       height: MediaQuery.of(context).size.height * 0.06,

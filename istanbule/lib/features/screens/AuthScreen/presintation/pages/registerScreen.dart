@@ -1,9 +1,13 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:io';
+
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:istanbule/core/model/city.dart';
 import 'package:istanbule/features/Utils/responsive.dart';
 import 'package:istanbule/features/Utils/them.dart';
 import 'package:istanbule/features/screens/AuthScreen/presintation/controller/user_controller.dart';
@@ -17,13 +21,6 @@ class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
 
   final _formKey = GlobalKey<FormState>();
-  RegExp emailRegex = RegExp(
-      r'^[\w-]+(\.[\w-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$');
-
-  Future<List> _getCities(String query) async {
-    await userController.getCities();
-    return userController.stateCities.result.map((city) => city.name).toList();
-  }
 
   final UserController userController = Get.put(UserController());
 
@@ -48,32 +45,43 @@ class RegisterScreen extends StatelessWidget {
                         width: 200,
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
-                          // border: Border.all(color: Colors.black12, width: 1.0),
                         ),
                         child: Stack(
                           clipBehavior: Clip.none,
                           fit: StackFit.expand,
                           children: [
                             CircleAvatar(
-                              backgroundColor: AppColors.textColorWhiteBold,
-                              child: SvgPicture.asset(
-                                'assets/icons/add-user.svg',
-                                width: 120,
-                                color: AppColors.primary1,
-                              ),
-                            ),
+                                backgroundColor: AppColors.textColorWhiteBold,
+                                child: userController.userModel.image == null ||
+                                        userController.userModel.image == ''
+                                    ? SvgPicture.asset(
+                                        'assets/icons/add-user.svg',
+                                        width: 120,
+                                        color: AppColors.primary1,
+                                      )
+                                    : ClipOval(
+                                        child: Image.file(
+                                          File(userController.userModel.image!),
+                                          width: double.infinity,
+                                          // height: 120,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      )),
                             Positioned(
                               bottom: 0,
                               right: 0,
                               child: RawMaterialButton(
                                 onPressed: () async {
-                                  // print("Before select image");
-                                  // final List? result =
-                                  //     await AssetPicker.pickAssets(
-                                  //   context,
-                                  //   pickerConfig: const AssetPickerConfig(),
-                                  // );
-                                  // print("after select image");
+                                  FilePickerResult? result =
+                                      await FilePicker.platform.pickFiles();
+
+                                  if (result != null) {
+                                    File file = File(result.files.single.path!);
+
+                                    userController.userModel.image = file.path;
+
+                                    Get.forceAppUpdate();
+                                  } else {}
                                 },
                                 elevation: 2.0,
                                 fillColor: const Color(0xFFF5F6F9),
@@ -165,7 +173,7 @@ class RegisterScreen extends StatelessWidget {
                               onChanged: (value) {
                                 userController.userModel.phone = value;
                               },
-                              initialValue:'+${userController.userModel.phone}',
+                              initialValue: userController.userModel.phone,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return "Please enter a Phone Number".tr;
@@ -174,7 +182,22 @@ class RegisterScreen extends StatelessWidget {
                               },
                             ),
                             const SizedBox(
-                              height: 15,
+                              height: 12,
+                            ),
+                            CustomDropdown(
+                              hintText: 'City'.tr,
+                              items:
+                                  cityData.map((city) => city["name"]).toList(),
+                              onChanged: (value) {
+                                print('Changing value to: $value');
+                              },
+                              closedBorder: Border.all(
+                                color: Colors.black,
+                                width: 1.0,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 12,
                             ),
                             PasswordFormFiled(
                                 labelText: 'Password'.tr,
@@ -212,55 +235,6 @@ class RegisterScreen extends StatelessWidget {
                                 icon: Icons.lock),
                             const SizedBox(
                               height: 20,
-                            ),
-                            CustomDropdown.searchRequest(
-                              futureRequest: _getCities,
-                              hintText: 'City'.tr,
-                              items: userController.stateCities.result
-                                  .map((city) => city.name)
-                                  .toList(),
-                              listItemBuilder: (context, item) {
-                                return Obx(() {
-                                  if (userController.stateCities.loading) {
-                                    return const Center(
-                                        child: Text("Loading..."));
-                                  } else if (userController
-                                      .stateCities.hasError) {
-                                    return const Center(
-                                        child: Text("Error loading cities"));
-                                  } else if (userController
-                                      .stateCities.result.isEmpty) {
-                                    return const Center(
-                                        child: Text("No cities available"));
-                                  } else {
-                                    return SizedBox(
-                                      height: 300,
-                                      child: ListView.builder(
-                                        itemCount: userController
-                                            .stateCities.result.length,
-                                        itemBuilder: (context, index) {
-                                          return ListTile(
-                                            title: Text(userController
-                                                .stateCities
-                                                .result[index]
-                                                .name!),
-                                          );
-                                        },
-                                      ),
-                                    );
-                                  }
-                                });
-                              },
-                              onChanged: (value) {
-                                // value = userController.stateCities.result
-                                //     .map((city) => city.id)
-                                //     .toList();
-                                print('changing value to: $value');
-                              },
-                              closedBorder: Border.all(
-                                color: Colors.black,
-                                width: 1.0,
-                              ),
                             ),
                             const SizedBox(height: 16),
                             Obx(() {

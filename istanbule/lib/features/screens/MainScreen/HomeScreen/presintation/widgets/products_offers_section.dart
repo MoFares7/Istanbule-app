@@ -38,7 +38,7 @@ class ProductsOffters extends StatelessWidget {
         );
       }
       return SizedBox(
-        height: MediaQuery.sizeOf(context).height * 0.65,
+        height: MediaQuery.sizeOf(context).height * 0.72,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.all(
@@ -49,17 +49,30 @@ class ProductsOffters extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
               child: ProductCard(
+                height: MediaQuery.sizeOf(context).height * 0.72,
+                width: MediaQuery.of(context).size.width / 1.4,
                 offer: productController.productState.result.topOffers[index],
+                
                 productOfferId: productController
                     .productState.result.topOffers[index].productId,
                 isOffer: true,
+                 isLastOffer: false,
                 onAddToCart: (int quantity) {
-                  cartController.addToCart(CartItem(
-                    name: products[index].name,
-                    image: products[index].image,
-                    price: products[index].price,
-                    quantity: quantity,
-                  ));
+                  if (productController
+                      .productState.result.topOffers.isNotEmpty) {
+                    cartController.addToCart(CartItem(
+                      name: productController
+                          .productState.result.topOffers[index].offerName,
+                      image: productController
+                          .productState.result.topOffers[index].imgUrl,
+                      price: productController
+                          .productState.result.topOffers[index].price,
+                      quantity: quantity,
+                    ));
+                    if (index <
+                        productController
+                            .productState.result.topOffers.length) {}
+                  }
                 },
               ),
             );

@@ -6,7 +6,9 @@ class EndPoints {
   static String getCities = "/showCities";
 
   static String getProduct = "/home";
+  static String getAllProduct = "/showProducts";
   static String getOffers = "/searchOffers";
   static String getFavourite = "/showFavourites";
+  static String search = "/searchProducts";
 
 }

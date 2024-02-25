@@ -10,7 +10,6 @@ import 'package:istanbule/features/screens/MainScreen/mainScreen.dart';
 import 'package:rx_future/rx_future.dart';
 
 class UserController extends GetxController {
-  //? initalize to data Regiester in model
   UserModel userModel = UserModel.zero();
 
   RxFuture<UserModel> stateLogin = RxFuture(UserModel.zero());
@@ -26,12 +25,14 @@ class UserController extends GetxController {
   Future<void> sendRegister() async {
     await stateRegister.observe(
       (value) async {
+        userModel.phone = '+${userModel.phone}';
         return await userApi.resgister(userModel);
       },
       onSuccess: (value) {
         if (kDebugMode) {
           ("the accout is created" '${value.message}');
         }
+        userModel.phone = '${userModel.phone}';
         if (value.message == "email is taken") {
           Get.snackbar(
             'Error'.tr,
@@ -58,6 +59,15 @@ class UserController extends GetxController {
         }
       },
       onError: (value) {
+        userModel.phone = '${userModel.phone}';
+        Get.snackbar(
+          'Error'.tr,
+          "Occurd error during Create Account".tr,
+          margin: const EdgeInsets.all(30),
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: AppColors.primary1,
+          colorText: AppColors.textColorWhiteBold,
+        );
         if (kDebugMode) {
           print('$value  " regiser Error"');
         }
@@ -68,6 +78,7 @@ class UserController extends GetxController {
   Future<void> sendLogin() async {
     await stateLogin.observe(
       (value) async {
+        userModel.phone = '+${userModel.phone}';
         return await userApi.login(userModel);
       },
       onSuccess: (value) {

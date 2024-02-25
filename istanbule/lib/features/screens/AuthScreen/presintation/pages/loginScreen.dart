@@ -15,9 +15,7 @@ class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key});
 
   final _formKey = GlobalKey<FormState>();
-  RegExp emailRegex = RegExp(
-    r'^[\w-]+(\.[\w-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$',
-  );
+
   final UserController userController = Get.put(UserController());
   @override
   Widget build(BuildContext context) {
@@ -80,11 +78,12 @@ class LoginScreen extends StatelessWidget {
                                   userController.userModel.phone = value;
                                 },
                                 initialValue:
-                                    '+${userController.userModel.phone}',
+                                    userController.userModel.phone,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return "Please enter a Phone Number".tr;
                                   }
+                                  return null;
                                 },
                               ),
                               const SizedBox(height: 15),
@@ -126,8 +125,9 @@ class LoginScreen extends StatelessWidget {
                                     titleButtonColor:
                                         AppColors.textColorWhiteBold,
                                     onClickNext: () async {
-                                      if (_formKey.currentState!.validate()) {}
-                                      await userController.sendLogin();
+                                      if (_formKey.currentState!.validate()) { 
+                                          await userController.sendLogin();}
+                                   
                                     },
                                   );
                                 }
@@ -141,9 +141,8 @@ class LoginScreen extends StatelessWidget {
                                 titleButton: "Login as Guest".tr,
                                 titleButtonColor: AppColors.textColorWhiteBold,
                                 onClickNext: () {
-                                  Get.offAll(MainScreen());
-                                  // Do something when the "Login as Guest" button is clicked
-                                },
+                                  Get.offAll(const MainScreen());
+                                   },
                               ),
                               const SizedBox(height: 10),
                               Row(

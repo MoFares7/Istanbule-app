@@ -1,21 +1,21 @@
 class CartItem {
-  final String name;
-  final String image;
-  final String price;
-  final int quantity;
+  final String? name;
+  final String? image;
+  final int? price;
+  final int? quantity;
 
   CartItem({
-    required this.name,
-    required this.image,
-    required this.price,
-    required this.quantity,
+     this.name,
+     this.image,
+     this.price,
+     this.quantity,
   });
 }
 
 class Product {
   final String name;
   final String image;
-  final String price;
+  final int price;
   final String oldPrice;
   final String total;
 

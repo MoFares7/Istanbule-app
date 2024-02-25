@@ -13,11 +13,4 @@ class CartController extends GetxController {
     cartItems.remove(cartItem);
   }
 
-  void addToFavorites(Product product) {
-    favoriteItems.add(product);
-  }
-
-  void removeFromFavorites(Product product) {
-    favoriteItems.remove(product);
-  }
 }

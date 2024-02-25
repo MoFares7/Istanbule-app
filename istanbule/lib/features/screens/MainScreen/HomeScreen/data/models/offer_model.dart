@@ -8,6 +8,7 @@ class Offer {
   String? disc;
   String? longDisc;
   int? price;
+  int? oldPrice;
   int? quantity;
   String? code;
   int? visible;
@@ -26,6 +27,7 @@ class Offer {
     this.disc,
     this.longDisc,
     this.price,
+    this.oldPrice,
     this.quantity,
     this.code,
     this.visible,
@@ -46,6 +48,7 @@ class Offer {
       disc: json['disc'],
       longDisc: json['long_disc'],
       price: json['price'],
+      oldPrice: json['old_price'],
       quantity: json['quantity'],
       code: json['code'],
       visible: json['visible'],
@@ -62,6 +65,6 @@ class Offer {
     return offer;
   }
   Offer.zero() {
-    Offer(offerId: 0, price: 0, productId: 0);
+    Offer(offerId: 0, price: 0, productId: 0, percentage: 0);
   }
 }

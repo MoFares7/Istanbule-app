@@ -27,11 +27,12 @@ class _CartCardState extends State<CartCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 7),
+      padding: const EdgeInsets.symmetric(vertical: 10),
       child: MaterialButton(
         onLongPress: widget.onTap,
         onPressed: () {},
         child: Container(
+          
           decoration: BoxDecoration(
             color: AppColors.textColorWhiteBold,
             borderRadius: BorderRadius.circular(10),
@@ -42,22 +43,22 @@ class _CartCardState extends State<CartCard> {
               return Column(
                 children: [
                   Container(
-                    height: 140,
-                    // width: MediaQuery.of(context).size.width / 2 - 20,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.only(
+                    height: MediaQuery.sizeOf(context).height * 0.3,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(10),
                         topRight: Radius.circular(10),
                       ),
                       image: DecorationImage(
-                        image: AssetImage('assets/images/food2.jpg'),
-                        fit: BoxFit.cover,
+                        image: NetworkImage(widget.cartItem!.image!),
+                        fit: BoxFit.scaleDown,
                       ),
                     ),
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    widget.cartItem!.name,
+                    widget.cartItem!.name!,
                     style: getHeadFont(context),
                   ),
                   const SizedBox(height: 2),
@@ -67,7 +68,7 @@ class _CartCardState extends State<CartCard> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text('Price'.tr, style: getTitleFont(context)),
-                        Text(widget.cartItem!.price,
+                        Text(widget.cartItem!.price!.toString(),
                             style: getSupTitleFont(context)),
                       ],
                     ),
@@ -99,7 +100,7 @@ class _CartCardState extends State<CartCard> {
                       MainButton(
                         titleButton: 'Edit',
                         titleButtonColor: AppColors.textColorWhiteBold,
-                        color: Color(0xFF212121),
+                        color: const Color(0xFF212121),
                         onClickNext: () {
                           _isEdit.value = !_isEdit.value;
                         },

@@ -10,6 +10,7 @@ import 'package:istanbule/features/screens/MainScreen/FavoritScreen/presintation
 import 'package:istanbule/features/screens/MainScreen/FavoritScreen/presintation/pages/favoritScreen.dart';
 import 'package:istanbule/features/screens/MainScreen/FavoritScreen/presintation/widgets/cardFavority.dart';
 import 'package:istanbule/features/screens/MainScreen/HomeScreen/presintation/pages/homeScreen.dart';
+import 'package:istanbule/features/screens/MainScreen/ProductsScreen/presintaiton/pages/product_screen.dart';
 import 'package:istanbule/features/screens/MainScreen/ProfileScreen/presintation/pages/profileScreen.dart';
 import '../../Utils/them.dart';
 
@@ -22,6 +23,7 @@ class MainScreen extends StatelessWidget {
 
     final List<Widget> pages = [
       HomeScreen(),
+      ProductScreen(),
       CartScreen(),
       FavoritScreen(),
       ProfileScreen(),
@@ -29,6 +31,7 @@ class MainScreen extends StatelessWidget {
     final FavouriteController favouriteController =
         Get.put(FavouriteController());
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.scaffoldBackgroundColor,
       body: ValueListenableBuilder<int>(
         valueListenable: currentIndex,
@@ -93,8 +96,8 @@ class MainScreen extends StatelessWidget {
                                   children: [
                                     SvgPicture.asset(
                                       currentIndex.value == 0
-                                          ? "assets/icons/home.svg"
-                                          : "assets/icons/home-ful.svg",
+                                          ? "assets/icons/home-ful.svg"
+                                          : "assets/icons/home1.svg",
                                       height: 30,
                                       width: 33,
                                       color: AppColors.textColorWhiteBold,
@@ -106,11 +109,29 @@ class MainScreen extends StatelessWidget {
                             ),
                             BottomNavigationBarItem(
                               icon: Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(6.0),
                                 child: Column(
                                   children: [
                                     SvgPicture.asset(
                                       currentIndex.value == 1
+                                          ? "assets/images/product.svg"
+                                          : "assets/images/product-empty.svg",
+                                      height: 30,
+                                      width: 33,
+                                      color: AppColors.textColorWhiteBold,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              label: 'Products'.tr,
+                            ),
+                            BottomNavigationBarItem(
+                              icon: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    SvgPicture.asset(
+                                      currentIndex.value == 2
                                           ? "assets/icons/cart.svg"
                                           : "assets/icons/cart-empty.svg",
                                       height: 30,
@@ -128,7 +149,7 @@ class MainScreen extends StatelessWidget {
                                 child: Column(
                                   children: [
                                     SvgPicture.asset(
-                                      currentIndex.value == 2
+                                      currentIndex.value == 3
                                           ? "assets/icons/star.svg"
                                           : "assets/icons/star-empty.svg",
                                       height: 30,
@@ -146,7 +167,7 @@ class MainScreen extends StatelessWidget {
                                 child: Column(
                                   children: [
                                     SvgPicture.asset(
-                                      currentIndex.value == 3
+                                      currentIndex.value == 4
                                           ? "assets/icons/user.svg"
                                           : "assets/icons/user-empty.svg",
                                       height: 30,

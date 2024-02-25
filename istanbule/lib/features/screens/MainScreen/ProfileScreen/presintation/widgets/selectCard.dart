@@ -13,13 +13,15 @@ class SelectCard extends StatelessWidget {
 
   final String title;
   final String icon;
-  final void Function()? onTap;
+  final void Function() onTap;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
       child: GestureDetector(
-        onTap: onTap,
+        onTap: () {
+          onTap();
+        },
         child: Container(
           height: 65,
           decoration: BoxDecoration(

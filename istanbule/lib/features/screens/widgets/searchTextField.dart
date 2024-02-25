@@ -17,7 +17,8 @@ class SearchField extends StatelessWidget {
     final isTablet = MediaQuery.of(context).size.shortestSide >= 600;
     return TextField(
       onChanged: (value) {
-        searchText.value = value == '' ? null : value;
+        // searchText.value = value == '' ? null : value;
+        searchText.value = value;
         onSearch!(searchText.value);
       },
       decoration: InputDecoration(

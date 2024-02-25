@@ -3,13 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:istanbule/controllers/cart_controller.dart';
 import 'package:istanbule/core/model/cartModel.dart';
-import 'package:istanbule/core/storage/storage.dart';
 import 'package:istanbule/features/Utils/responsive.dart';
 import 'package:istanbule/features/Utils/styled.dart';
 import 'package:istanbule/features/screens/MainScreen/HomeScreen/data/models/ads_model.dart';
-import 'package:istanbule/features/screens/MainScreen/HomeScreen/data/models/manage_product_model.dart';
 import 'package:istanbule/features/screens/MainScreen/HomeScreen/presintation/controller/product_controller.dart';
-import 'package:istanbule/features/screens/MainScreen/HomeScreen/presintation/widgets/productCard.dart';
 import 'package:istanbule/features/screens/MainScreen/HomeScreen/presintation/widgets/products_offers_section.dart';
 import 'package:istanbule/features/screens/MainScreen/HomeScreen/presintation/widgets/products_top_section.dart';
 import 'package:istanbule/features/screens/widgets/loading_card.dart';
@@ -90,10 +87,8 @@ class HomeScreen extends StatelessWidget {
                           scrollDirection: Axis.horizontal,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            top: 20, right: 7, left: 7, bottom: 20),
-                        child: SearchField(),
+                      const SizedBox(
+                        height: 20,
                       ),
                       Text(
                         'Most Sold Products'.tr,
@@ -113,7 +108,9 @@ class HomeScreen extends StatelessWidget {
                       ProductsOffters(
                           productController: productController,
                           cartController: cartController,
-                          products: products),
+                          products: products, 
+                          
+                          ),
                       const SizedBox(
                         height: 10,
                       ),
